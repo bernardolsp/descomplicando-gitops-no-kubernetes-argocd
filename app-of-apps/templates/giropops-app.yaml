@@ -19,4 +19,4 @@
         selfHeal: true
       syncOptions:
       - CreateNamespace=true
-{{- end}}
+{{- end }}
