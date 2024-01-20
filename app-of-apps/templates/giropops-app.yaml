@@ -11,6 +11,10 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
+    helm:
+      parameters:
+      - name: "giropopsSenhas.replicas"
+        value: "{{ .Values.argocd.giropopsSenhas.replicas }}"
     path: giropops-senhas/helm
     repoURL: https://github.com/bernardolsp/descomplicando-gitops-no-kubernetes-argocd.git
     targetRevision: feat/day2
