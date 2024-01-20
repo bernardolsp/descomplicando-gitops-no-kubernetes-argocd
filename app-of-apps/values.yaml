@@ -1,4 +1,3 @@
-# test
 argocd:
   giropopsSenhas:
     enabled: false
