@@ -9,12 +9,9 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    helm:
-      valueFiles:
-      - values.yaml
     path: random-logger/helm
     repoURL: https://github.com/bernardolsp/descomplicando-gitops-no-kubernetes-argocd.git
-    targetRevision: HEAD
+    targetRevision: feat/day2
   syncPolicy:
     automated:
       selfHeal: true
