@@ -2,6 +2,6 @@
 argocd:
   giropopsSenhas:
     enabled: false
-    replicas: 3
+    replicas: 10
   randomLogger:
     enabled: false
