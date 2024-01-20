@@ -1,7 +1,7 @@
 # values.yaml
 giropopsSenhas:
   image: linuxtips/giropops-senhas:1.0
-  replicas: 4
+  replicas: 2
   port: 5000
   imagePullPolicy: Always
 
