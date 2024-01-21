@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-addons
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - pullRequest:
+      github: 
+        owner: bernardolsp
+        repo: descomplicando-gitops-no-kubernetes-argocd
+        tokenRef:
+          secretName: github-token
+          key: token
+      requeueAfterSeconds: 60
+  template:
+    metadata:
+      name: stack-apps-{{branch_slug}}-{{number}}
+    spec:
+      project: "default"
+      source:
+        repoURL: https://github.com/bernardolsp/descomplicando-gitops-no-kubernetes-argocd.git
+        targetRevision: '{{head_sha}}'
+        path: app-of-apps/
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'app-of-apps-{{branch_slug}}-{{number}}'
+      syncPolicy:
+        automated: {}
+        syncOptions:
+        - CreateNamespace=true
