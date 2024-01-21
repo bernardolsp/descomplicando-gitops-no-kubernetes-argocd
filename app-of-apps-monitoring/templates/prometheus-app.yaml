@@ -14,7 +14,7 @@ spec:
       valueFiles:
       - $values/prometheus/values.yaml
       parameters:
-      - name: "ingress.hosts\[0\]"
+      - name: "ingress.hosts[0]"
         value: "{{ .Values.argocd.prometheus.ingress }}"
   - repoURL: 'https://github.com/bernardolsp/descomplicando-gitops-no-kubernetes-argocd.git'
     targetRevision: feat/day2
