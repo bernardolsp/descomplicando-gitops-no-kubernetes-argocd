@@ -1,0 +1,13 @@
+# templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-giropops-senhas
+spec:
+  selector:
+    app: {{ .Release.Name }}-giropops-senhas
+  ports:
+    - protocol: TCP
+      port: {{ .Values.giropopsSenhas.port }}
+      targetPort: {{ .Values.giropopsSenhas.port }}
+  type: NodePort

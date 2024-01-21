@@ -1,0 +1,5 @@
+# Chart.yaml
+apiVersion: v2
+name: giropops-senhas
+description: A Helm chart for giropops-senhas and redis
+version: 0.1.0

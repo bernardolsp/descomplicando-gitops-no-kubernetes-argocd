@@ -1,0 +1,23 @@
+# templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Release.Name }}-giropops-senhas
+  name: {{ .Release.Name }}-giropops-senhas
+spec:
+  replicas: {{ .Values.giropopsSenhas.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-giropops-senhas
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-giropops-senhas
+    spec:
+      containers:
+      - image: {{ .Values.giropopsSenhas.image }}
+        name: giropops-senhas
+        ports:
+        - containerPort: {{ .Values.giropopsSenhas.port }}
+        imagePullPolicy: {{ .Values.giropopsSenhas.imagePullPolicy }}
