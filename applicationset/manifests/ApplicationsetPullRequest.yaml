@@ -22,6 +22,12 @@ spec:
         repoURL: https://github.com/bernardolsp/descomplicando-gitops-no-kubernetes-argocd.git
         targetRevision: '{{head_sha}}'
         path: app-of-apps/
+        helm:
+          parameters:
+          - name: "argocd.giropopsSenhas.enabled"
+            value: "true"
+          - name: "argocd.randomLogger.enabled"
+            value: "true"
       destination:
         server: https://kubernetes.default.svc
         namespace: 'stack-apps-{{branch_slug}}-{{number}}'
