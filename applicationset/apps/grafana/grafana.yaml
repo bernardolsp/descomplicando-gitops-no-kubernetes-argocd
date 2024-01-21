@@ -1,0 +1,9 @@
+# Chart.yaml
+apiVersion: v2
+name: grafana
+description: A Helm chart for grafana
+version: 0.1.0
+dependencies:
+  - name: grafana
+    repository: https://grafana.github.io/helm-charts
+    version: 7.0.19
