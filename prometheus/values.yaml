@@ -1,0 +1,3 @@
+configmapReload:
+  prometheus:
+    name: configmap-reload-teste
