@@ -4,8 +4,6 @@ metadata:
   name: cluster-addons
   namespace: argocd
 spec:
-  goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
   generators:
   - pullRequest:
       github: 
@@ -17,7 +15,7 @@ spec:
       requeueAfterSeconds: 60
   template:
     metadata:
-      name: stack-apps-{{branch_slug}}-{{number}}
+      name: "stack-apps-{{branch_slug}}-{{number}}"
     spec:
       project: "default"
       source:
@@ -26,7 +24,7 @@ spec:
         path: app-of-apps/
       destination:
         server: https://kubernetes.default.svc
-        namespace: 'app-of-apps-{{branch_slug}}-{{number}}'
+        namespace: 'stack-apps-{{branch_slug}}-{{number}}'
       syncPolicy:
         automated: {}
         syncOptions:
