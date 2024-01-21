@@ -15,3 +15,11 @@ spec:
   - repoURL: 'https://github.com/bernardolsp/descomplicando-gitops-no-kubernetes-argocd.git'
     targetRevision: feat/day2
     ref: values
+  destination:
+    namespace: monitoring
+    server: 'https://kubernetes.default.svc'
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
