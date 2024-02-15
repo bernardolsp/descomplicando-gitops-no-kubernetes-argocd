@@ -1,1 +1,6 @@
 SecretToken.yaml
+.terraform/*
+**.terraform*
+.lock.hcl
+.tfstate
+*.tfstate
