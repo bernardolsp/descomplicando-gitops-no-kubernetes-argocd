@@ -4,7 +4,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: grafana-app
-  namespace: argocd
+  namespace: argocd-prd
 spec:
   project: default
   sources:
