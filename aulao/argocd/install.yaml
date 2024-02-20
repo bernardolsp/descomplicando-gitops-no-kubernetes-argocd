@@ -1,0 +1,33 @@
+nameOverride: argocd
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hostname: argocd.bernardolopes.com
+    path: /
+
+configs:
+  params:
+    server.insecure: true
+  repositories:
+    apps-repo:
+      url: https://github.com/bernardolsp/aulao-pipeline.git
+      name: apps-repo
+      password: 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
+      username: token
+    infra-repo:
+      url: https://github.com/bernardolsp/descomplicando-gitops-no-kubernetes-argocd
+      name: infra
+      password: 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
+      username: token
+
+applicationSet:
+  enabled: true
+  metrics:
+    enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hostname: applicationset.bernardolopes.com
+    path: /

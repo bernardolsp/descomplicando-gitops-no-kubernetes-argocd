@@ -1,0 +1,54 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-applicationset-controller-test
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /api/webhook
+            pathType: Prefix
+            backend:
+              service:
+                name: argocd-prd-applicationset-controller
+                port:
+                  name: webhook
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-applicationset-controller-test
+spec:
+  ports:
+  - name: webhook
+    port: 7000
+    targetPort: webhook
+  selector:
+    app.kubernetes.io/name: argocd-applicationset-controller-test
+    app.kubernetes.io/instance: argocd
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-applicationset-controller-test
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: argocd-applicationset-controller-test
+      app.kubernetes.io/instance: argocd
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: argocd-applicationset-controller-test
+        app.kubernetes.io/instance: argocd
+    spec:
+      containers:
+        - name: applicationset-controller
+          image: quay.io/argoproj/argocd
+          imagePullPolicy: IfNotPresent
+          command: [entrypoint.sh, argocd-applicationset-controller]
+          ports:
+            - name: webhook
+              containerPort: 7000
+              protocol: TCP
