@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.helloWorld.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  strategy:
+    canary:
+      analysis:
+        templates:
+        - templateName: {{ .Release.Name }}
+        startingStep: 2
+      canaryService: {{ .Release.Name }}-canary
+      stableService: {{ .Release.Name }}
+      trafficRouting:
+        nginx:
+          stableIngress: {{ .Release.Name }}
+      steps:
+      - setWeight: 20
+      - pause: {duration: 30s}
+      - setWeight: 40
+      - pause: {duration: 1m}
+      - setWeight: 60
+      - pause: {duration: 1m}
+      - setWeight: 80
+      - pause: {duration: 2m}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        - image: {{ .Values.helloWorld.image }}
+          name: {{ .Release.Name }}
+          ports:
+            - containerPort: {{ .Values.helloWorld.port }}
+          imagePullPolicy: {{ .Values.helloWorld.imagePullPolicy }}

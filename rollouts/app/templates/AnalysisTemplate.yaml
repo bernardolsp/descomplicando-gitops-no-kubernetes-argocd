@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  metrics:
+  - name: {{ .Release.Name }}
+    interval: 1m
+    successCondition: result[0] >= 0.95
+    failureLimit: 3
+    provider:
+      prometheus:
+        address: http://prometheus-server.ingress-nginx.svc.cluster.local:9090
+        insecure: true
+        # timeout is expressed in seconds
+        timeout: 10
+        query: |
+          rate(nginx_ingress_controller_requests{ingress="helloworld", status="200"}[1m])
+          / 
+          rate(nginx_ingress_controller_requests{ingress="helloworld"}[1m])

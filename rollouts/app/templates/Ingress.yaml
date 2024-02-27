@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: helloworld.bernardolopes.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: {{ .Release.Name }} 
+                port:
+                  number: {{ .Values.helloWorld.port }}   
+
