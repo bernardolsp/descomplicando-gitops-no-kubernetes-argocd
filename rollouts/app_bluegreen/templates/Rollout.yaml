@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.helloWorld.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  strategy:
+    blueGreen:
+      activeService: {{ .Release.Name }}
+      autoPromotionEnabled: true
+      previewService: {{ .Release.Name }}-preview
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        - image: {{ .Values.helloWorld.image }}
+          name: {{ .Release.Name }}
+          ports:
+            - containerPort: {{ .Values.helloWorld.port }}
+          imagePullPolicy: {{ .Values.helloWorld.imagePullPolicy }}
