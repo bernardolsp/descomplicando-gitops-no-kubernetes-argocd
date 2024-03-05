@@ -7,20 +7,38 @@ server:
     hostname: argocd.bernardolopes.com
     path: /
 
+dex:
+  enabled: true
+
 configs:
   params:
     server.insecure: true
-  repositories:
-    apps-repo:
-      url: https://github.com/bernardolsp/aulao-pipeline.git
-      name: apps-repo
-      password: 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
-      username: token
-    infra-repo:
-      url: https://github.com/bernardolsp/descomplicando-gitops-no-kubernetes-argocd
-      name: infra
-      password: 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
-      username: token
+    server.dex.server: http://argocd-dex-server:5556
+    dexserver.disable.tls: true
+    server.dex.server.strict.tls: false
+  cm:
+    url: http://argocd.bernardolopes.com
+    dex.config: |
+      connectors:
+      - type: github
+        id: github
+        name: GitHub
+        config:
+          clientID: eeb0d5439fa3d775eca7
+          clientSecret: c0cd97e254b5ca84e7c68c67763b94852c628610
+          orgs: 
+          - name: Treinamento-ArgoCD
+
+  rbac:
+    policy.default: role:readonly
+    policy.csv: |
+      p, role:org-admin, applications, *, */*, allow
+      p, role:org-admin, clusters, get, *, allow
+      p, role:org-admin, repositories, *, *, allow
+      p, role:org-admin, logs, get, *, allow
+      p, role:org-admin, exec, create, */*, allow
+      g, Treinamento-ArgoCD:DevOps, role:org-admin
+    scopes: '[groups]'
 
 applicationSet:
   enabled: true
