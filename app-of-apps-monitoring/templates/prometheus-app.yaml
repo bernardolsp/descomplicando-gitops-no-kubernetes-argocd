@@ -1,0 +1,30 @@
+{{ if .Values.argocd.prometheus.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-app
+  namespace: argocd
+spec:
+  project: default
+  sources:
+  - repoURL: 'https://prometheus-community.github.io/helm-charts'
+    chart: prometheus
+    targetRevision: 15.7.1
+    helm:
+      valueFiles:
+      - $values/prometheus/values.yaml
+      parameters:
+      - name: "ingress.hosts[0]"
+        value: "{{ .Values.argocd.prometheus.ingress }}"
+  - repoURL: 'https://github.com/bernardolsp/descomplicando-gitops-no-kubernetes-argocd.git'
+    targetRevision: feat/day2
+    ref: values
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    namespace: prometheus
+    server: https://kubernetes.default.svc
+{{ end }}

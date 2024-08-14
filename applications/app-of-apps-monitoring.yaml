@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-of-apps-monitoring
+  namespace: argocd
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: app-of-apps-monitoring
+    helm:
+      parameters:
+      - name: "argocd.prometheus.enabled"
+        value: "true"
+      - name: "argocd.prometheus.ingress"
+        value: "prometheus.company123.com"
+      - name: "argocd.grafana.enabled"
+        value: "true"
+      - name: "argocd.grafana.ingress"
+        value: "grafana.company123.com"
+    repoURL: https://github.com/bernardolsp/descomplicando-gitops-no-kubernetes-argocd.git
+    targetRevision: feat/day2
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+    - CreateNamespace=true 
+    - PruneLast=true

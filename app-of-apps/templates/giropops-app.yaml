@@ -1,0 +1,26 @@
+
+{{ if .Values.argocd.giropopsSenhas.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: giropops-senhas
+  namespace: argocd
+spec:
+  destination:
+    namespace: giropops-senhas
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    helm:
+      parameters:
+      - name: "giropopsSenhas.replicas"
+        value: "{{ .Values.argocd.giropopsSenhas.replicas }}"
+    path: giropops-senhas/helm
+    repoURL: https://github.com/bernardolsp/descomplicando-gitops-no-kubernetes-argocd.git
+    targetRevision: feat/day2
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+{{ end }}
