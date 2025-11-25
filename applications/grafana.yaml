@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana-app
+  namespace: argocd
+spec:
+  project: default
+  sources   :
+    - repoURL: "https://grafana.github.io/helm-charts"
+      chart: grafana  
+      targetRevision: 7.0.19 
+      helm:
+        valuesFiles:
+        - $values/grafana/values.yaml
+    - repoURL: 'repoURL: "https://github.com/WashingtonRJ/descomplicando-gitops-no-kubernetes-argocd.git"
+      targetRevision:  feat/day2
+      ref: values
