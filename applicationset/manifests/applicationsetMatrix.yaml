@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-addons
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  -  matrix:
+      - git:
+          repoURL: https://github.com/WashingtonRJ/descomplicando-gitops-no-kubernetes-argocd.git
+          revision: feat/day3
+          directories:
+          - path: applicationset/apps/*/helm
+      - git:
+          repoURL: https://github.com/WashingtonRJ/descomplicando-gitops-no-kubernetes-argocd.git
+          revision: feat/day3
+          pathParamPrefix: configs
+          files: 
+            - path: applicationset/configs/dev.json
+      #- path: applicationset/apps/random-logger/helm
+       # exclude: true
+  template:
+    metadata:
+      name: '{{index .path.segments 2}}-{{.config.cluster.name}}'
+    spec:
+      project: "default"
+      source:
+        repoURL: https://github.com/WashingtonRJ/descomplicando-gitops-no-kubernetes-argocd.git
+        targetRevision: feat/day3
+        path: '{{.path.path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{index .path.segments 2}}'
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true

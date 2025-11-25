@@ -1,0 +1,7 @@
+{
+    "cluster" :  {
+        "name" : "test-local",
+        "id" : "123"
+    },
+    "owner" : "plataform"
+}
