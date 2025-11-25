@@ -1,0 +1,5 @@
+randomLogger:
+  image: devlopesbernardo/simple-random-logger:amd64
+  replicas: 2
+  port: 5000
+  imagePullPolicy: Always

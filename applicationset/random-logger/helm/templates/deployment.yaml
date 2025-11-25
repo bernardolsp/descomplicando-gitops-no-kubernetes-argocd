@@ -1,0 +1,23 @@
+# templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Release.Name }}-random-logger
+  name: {{ .Release.Name }}-random-logger
+spec:
+  replicas: {{ .Values.randomLogger.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-random-logger
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-random-logger
+    spec:
+      containers:
+      - image: {{ .Values.randomLogger.image }}
+        name: random-logger
+        ports:
+        - containerPort: {{ .Values.randomLogger.port }}
+        imagePullPolicy: {{ .Values.randomLogger.imagePullPolicy }}

@@ -1,0 +1,5 @@
+# Chart.yaml
+apiVersion: v2
+name: random-logger
+description: A Helm chart for random-logger
+version: 0.1.0

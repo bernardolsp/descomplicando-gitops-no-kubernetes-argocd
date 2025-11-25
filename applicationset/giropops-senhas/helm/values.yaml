@@ -1,0 +1,11 @@
+# values.yaml
+giropopsSenhas:
+  image: linuxtips/giropops-senhas:1.0
+  replicas: 2
+  port: 5000
+  imagePullPolicy: Always
+
+redis:
+  image: redis
+  replicas: 1
+  port: 6379
