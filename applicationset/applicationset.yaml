@@ -12,6 +12,8 @@ spec:
       revision: feat/day3
       directories:
       - path: applicationset/apps/*/helm
+      #- path: applicationset/apps/random-logger/helm
+       # exclude: true
   template:
     metadata:
       name: '{{index .path.segments 2}}'
